@@ -1,0 +1,43 @@
+global class BatchClassForContact implements Database.Batchable<sObject> {
+
+     global Database.QueryLocator start(Database.BatchableContext BC) {
+
+               
+
+        String query = 'SELECT Id,FirstName,LastName,Email FROM Contact limit 1';        
+
+        return Database.getQueryLocator(query);      
+
+    }
+
+        global void execute(Database.BatchableContext BC,List<Contact> scope) {
+
+        List<Contact> ConList = new List<Contact>();
+
+                for (integer i=0;i<10000;i++)
+
+                {
+
+        Contact anew= new Contact(FirstName ='Test'+Math.random(),LastName='PCL'+Math.random(),Email='testPcl@gmail.com'+Math.random());      
+
+        ConList.add(anew);               
+
+               }
+
+            try {
+
+              insert ConList;
+
+         } catch(Exception e) {
+
+            System.debug(e);
+
+        }  
+
+    }     
+
+    global void finish(Database.BatchableContext BC) {
+
+       }
+
+}
