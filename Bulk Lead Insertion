@@ -1,0 +1,43 @@
+global class batchclassforlead implements Database.Batchable<sObject> {
+
+       global Database.QueryLocator start(Database.BatchableContext BC) {
+
+               
+
+        String query = 'SELECT Id,FirstName,LastName,Company,Status FROM Lead limit 1';        
+
+        return Database.getQueryLocator(query);      
+
+    }
+
+       global void execute(Database.BatchableContext BC,List<Lead> scope) {
+
+        List<Lead> ldList = new List<Lead>();
+
+                 for (integer i=0;i<10000;i++)
+
+                {
+
+        Lead ldnew= new Lead(FirstName ='SD',LastName='Lead'+Math.random(),Status ='Open',company='PC' +Math.random());  
+
+       ldList.add(ldnew);        
+
+               }    
+
+        try {
+
+    insert ldList;
+
+          } catch(Exception e) {
+
+            System.debug(e);
+
+        } 
+
+    }        
+
+    global void finish(Database.BatchableContext BC) {
+
+  }
+
+}
